@@ -1,8 +1,9 @@
-###########################################
+Table of Contents
+=================
+
+   * [Linux Administrator course homework #1](#linux-administrator-course-homework-1)
 
 # Linux Administrator course homework #1
-
-###########################################
 
 In this homework I executed 
 ```
