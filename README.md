@@ -1,7 +1,6 @@
-Table of Contents
-=================
-
-   * [Linux Administrator course homework #1](#linux-administrator-course-homework-1)
+   * [Table of Contents](#table-of-contents)
+      * [Linux Administrator course homework #1](#linux-administrator-course-homework-1)
+      * [Linux Administrator course homework #2](#linux-administrator-course-homework-2)
 
 ## Linux Administrator course homework #1
 
@@ -51,4 +50,6 @@ Then I execute `reboot` command and I booted with new kernel!
 
 My file `.config` you can find in this repo near this README.md file.
 
-###########################################
+## Linux Administrator course homework #2
+
+
