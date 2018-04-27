@@ -1,4 +1,6 @@
-   * [Table of Contents](#table-of-contents)
+Table of Contents
+=================
+
       * [Linux Administrator course homework #1](#linux-administrator-course-homework-1)
       * [Linux Administrator course homework #2](#linux-administrator-course-homework-2)
 
