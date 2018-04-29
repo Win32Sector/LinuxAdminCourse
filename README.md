@@ -4,6 +4,7 @@ Table of Contents
    * [Table of Contents](#table-of-contents)
       * [Linux Administrator course homework #1](#linux-administrator-course-homework-1)
       * [Linux Administrator course homework #2](#linux-administrator-course-homework-2)
+      * [Linux Administrator course homework #3](#linux-administrator-course-homework-3)
 
 ## Linux Administrator course homework #1
 
@@ -55,6 +56,9 @@ My file `.config` you can find in this repo near this README.md file.
 
 ## Linux Administrator course homework #2
 
+1. Для выполнения скачал репозиторий, который выложил Алексей, поднял из Vagrantfile виртуалку.
+Поигрался с fdisk, parted, sfdisk,mdadm.
+2. Добавил в Vagrantfile еще дисков. Посоздавал разные виды RAID-массивов, поломал и починил рейды.
 
 "Сломал" один из дисков, удалив его с помощью fdisk
 
@@ -140,3 +144,104 @@ Consistency Policy : resync
        6       8       97        5      active sync   /dev/sdg1
 ```
 </details>
+
+<details>
+      <summary>Прописал собранный рейд в конфиг-файл /etc/mdadm/mdadm.conf, чтобы рейд собирался при загрузке</summary>
+
+```
+DEVICE partitions
+ARRAY /dev/md0 level=raid5 num-devices=3 metadata=1.2 spares=1 name=otuslinux:0 UUID=91d04df9:c9eaa201:6a1f2e2e:9b1806e3
+```
+
+</details>
+
+Затем удалил машину и прописал в Vagrantfile копирование в виртуалку скрипта создания разделов из подключенных дисков,
+А также его запуск и создание рейд-массива из этих разделов, а также создание файла /etc/mdadm/mdadm.conf и 
+создание файловой системы на устройстве /dev/md0 и его монтирование в /mnt.
+
+<details>
+      <summary>Vagrantfile</summary>
+
+```
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+  :otuslinux => {
+        :box_name => "centos/7",
+        :ip_addr => '192.168.11.101',
+	:disks => {
+		:sata1 => {
+			:dfile => './sata1.vdi',
+			:size => 250,
+			:port => 1
+		},
+		:sata2 => {
+      :dfile => './sata2.vdi',
+      :size => 250, # Megabytes
+			:port => 2
+		},
+    :sata3 => {
+      :dfile => './sata3.vdi',
+      :size => 250,
+      :port => 3
+    }
+	}
+
+		
+  },
+}
+
+Vagrant.configure("2") do |config|
+
+  MACHINES.each do |boxname, boxconfig|
+
+      config.vm.define boxname do |box|
+
+          box.vm.box = boxconfig[:box_name]
+          box.vm.host_name = boxname.to_s
+
+          #box.vm.network "forwarded_port", guest: 3260, host: 3260+offset
+
+          box.vm.network "private_network", ip: boxconfig[:ip_addr]
+
+          box.vm.provider :virtualbox do |vb|
+            	  vb.customize ["modifyvm", :id, "--memory", "1024"]
+		  vb.customize ["storagectl", :id, "--name", "SATA", "--add", "sata" ]
+
+		  boxconfig[:disks].each do |dname, dconf|
+			  unless File.exist?(dconf[:dfile])
+				vb.customize ['createhd', '--filename', dconf[:dfile], '--variant', 'Fixed', '--size', dconf[:size]]
+			  end
+			  vb.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', dconf[:port], '--device', 0, '--type', 'hdd', '--medium', dconf[:dfile]]
+
+		  end
+          end
+    config.vm.provision "file", source: "script.sh", destination: "/home/vagrant/script.sh" 
+ 	  box.vm.provision "shell", inline: <<-SHELL
+	      mkdir -p ~root/.ssh
+              cp ~vagrant/.ssh/auth* ~root/.ssh
+	      yum install -y mdadm smartmontools hdparm gdisk
+        cd /home/vagrant && bash ./script.sh
+        mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
+  	    mkdir /etc/mdadm && touch /etc/mdadm/mdadm.conf
+        echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
+        mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
+        mkfs.ext4 /dev/md0
+        mount /dev/md0 /mnt
+      SHELL
+
+      end
+  end
+end
+
+
+```
+
+</details>
+
+Чтобы проверить выполнение работы, достаточно скопировать себе на машину файлы из директории homework2 - Vagrantfile и script.sh,
+а затем запустить в этом каталоге команду `vagrant up`
+
+
+## Linux Administrator course homework #3
