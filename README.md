@@ -98,10 +98,7 @@ Consistency Policy : resync
        6       8       97        5      active sync   /dev/sdg1
 ```
 </details>
-Создал и подключил его снова с помощью 
-```
-mdadm /dev/md0 --add /dev/sdc1
-```
+Создал и подключил его снова с помощью `mdadm /dev/md0 --add /dev/sdc1`
 
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
