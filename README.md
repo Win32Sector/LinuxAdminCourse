@@ -146,7 +146,7 @@ Consistency Policy : resync
        6       8       97        5      active sync   /dev/sdg1
 ```
 </details>
-
+<p>
 <details>
       <summary>Прописал собранный рейд в конфиг-файл /etc/mdadm/mdadm.conf, чтобы рейд собирался при загрузке</summary>
 
