@@ -56,15 +56,16 @@ My file `.config` you can find in this repo near this README.md file.
 
 ## Linux Administrator course homework #2
 
-1. Для выполнения скачал репозиторий, который выложил Алексей, поднял из Vagrantfile виртуалку.
+Для выполнения скачал репозиторий, который выложил Алексей, поднял из Vagrantfile виртуалку.
 Поигрался с fdisk, parted, sfdisk,mdadm.
-2. Добавил в Vagrantfile еще дисков. Посоздавал разные виды RAID-массивов, поломал и починил рейды.
+
+Добавил в Vagrantfile еще дисков. Посоздавал разные виды RAID-массивов, поломал и починил рейды.
 
 "Сломал" один из дисков, удалив его с помощью fdisk
 
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
-
+<br><br>
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -102,11 +103,12 @@ Consistency Policy : resync
        6       8       97        5      active sync   /dev/sdg1
 ```
 </details>
+<br><br>
 Создал и подключил его снова с помощью `mdadm /dev/md0 --add /dev/sdc1`
-
+<br><br>
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
-
+<br><br>
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -147,15 +149,16 @@ Consistency Policy : resync
 
 <details>
       <summary>Прописал собранный рейд в конфиг-файл /etc/mdadm/mdadm.conf, чтобы рейд собирался при загрузке</summary>
-
+<br><br>
 ```
 DEVICE partitions
 ARRAY /dev/md0 level=raid5 num-devices=3 metadata=1.2 spares=1 name=otuslinux:0 UUID=91d04df9:c9eaa201:6a1f2e2e:9b1806e3
 ```
 
 </details>
-
+<br><br>
 Затем удалил машину и прописал в Vagrantfile копирование в виртуалку скрипта создания разделов из подключенных дисков,
+
 А также его запуск и создание рейд-массива из этих разделов, а также создание файла /etc/mdadm/mdadm.conf и 
 создание файловой системы на устройстве /dev/md0 и его монтирование в /mnt.
 
@@ -239,7 +242,7 @@ end
 ```
 
 </details>
-
+<br><br>
 Чтобы проверить выполнение работы, достаточно скопировать себе на машину файлы из директории homework2 - Vagrantfile и script.sh,
 а затем запустить в этом каталоге команду `vagrant up`
 
