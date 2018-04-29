@@ -52,7 +52,7 @@ Then I execute `reboot` command and I booted with new kernel!
 4.16.41
 ```
 
-My file `.config` you can find in this repo near this README.md file.
+My file `.config` you can find in this repo in the folder homework1 README.md file.
 
 ## Linux Administrator course homework #2
 
