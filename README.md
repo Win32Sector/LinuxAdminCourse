@@ -57,7 +57,8 @@ My file `.config` you can find in this repo near this README.md file.
 
 
 "Сломал" один из дисков, удалив его с помощью fdisk
-
+<details>
+<summary>Вывод <code>mdadm --detail /dev/md0</code><summary>
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -94,13 +95,13 @@ Consistency Policy : resync
        4       8       81        4      active sync   /dev/sdf1
        6       8       97        5      active sync   /dev/sdg1
 ```
-
+</details>
 Создал и подключил его снова с помощью 
 ```
 mdadm /dev/md0 --add /dev/sdc1
 ```
 <details>
-<summary>Вывод `mdadm --detail /dev/md0`</summary>
+<summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
 
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
