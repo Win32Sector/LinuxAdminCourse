@@ -103,9 +103,9 @@ Consistency Policy : resync
        6       8       97        5      active sync   /dev/sdg1
 ```
 </details>
-<br><br>
+<p>
 Создал и подключил его снова с помощью `mdadm /dev/md0 --add /dev/sdc1`
-<br><br>
+<p>
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
 
@@ -156,7 +156,7 @@ ARRAY /dev/md0 level=raid5 num-devices=3 metadata=1.2 spares=1 name=otuslinux:0 
 ```
 
 </details>
-<br><br>
+<p>
 Затем удалил машину и прописал в Vagrantfile копирование в виртуалку скрипта создания разделов из подключенных дисков,
 
 А также его запуск и создание рейд-массива из этих разделов, а также создание файла /etc/mdadm/mdadm.conf и 
@@ -242,7 +242,7 @@ end
 ```
 
 </details>
-<br><br>
+<p>
 Чтобы проверить выполнение работы, достаточно скопировать себе на машину файлы из директории homework2 - Vagrantfile и script.sh,
 а затем запустить в этом каталоге команду `vagrant up`
 
