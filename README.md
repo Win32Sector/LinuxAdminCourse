@@ -57,8 +57,10 @@ My file `.config` you can find in this repo near this README.md file.
 
 
 "Сломал" один из дисков, удалив его с помощью fdisk
+
 <details>
-<summary>Вывод <code>mdadm --detail /dev/md0</code><summary>
+<summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
+
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -100,6 +102,7 @@ Consistency Policy : resync
 ```
 mdadm /dev/md0 --add /dev/sdc1
 ```
+
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
 
