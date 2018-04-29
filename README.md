@@ -65,7 +65,7 @@ My file `.config` you can find in this repo in the folder homework1 README.md fi
 
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
-<br><br>
+
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -108,7 +108,7 @@ Consistency Policy : resync
 <br><br>
 <details>
 <summary>Вывод <code>mdadm --detail /dev/md0</code></summary>
-<br><br>
+
 ```
 [root@otuslinux vagrant]# mdadm --detail /dev/md0
 /dev/md0:
@@ -149,7 +149,7 @@ Consistency Policy : resync
 
 <details>
       <summary>Прописал собранный рейд в конфиг-файл /etc/mdadm/mdadm.conf, чтобы рейд собирался при загрузке</summary>
-<br><br>
+
 ```
 DEVICE partitions
 ARRAY /dev/md0 level=raid5 num-devices=3 metadata=1.2 spares=1 name=otuslinux:0 UUID=91d04df9:c9eaa201:6a1f2e2e:9b1806e3
