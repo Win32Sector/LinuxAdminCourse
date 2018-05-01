@@ -221,13 +221,13 @@ Vagrant.configure("2") do |config|
 		  end
           end
     config.vm.provision "file", source: "script.sh", destination: "/home/vagrant/script.sh" 
- 	  box.vm.provision "shell", inline: <<-SHELL
-	      mkdir -p ~root/.ssh
+    box.vm.provision "shell", inline: <<-SHELL
+        mkdir -p ~root/.ssh
         cp ~vagrant/.ssh/auth* ~root/.ssh
-	      yum install -y mdadm smartmontools hdparm gdisk
+        yum install -y mdadm smartmontools hdparm gdisk
         cd /home/vagrant && bash ./script.sh
         mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
-  	    mkdir /etc/mdadm && touch /etc/mdadm/mdadm.conf
+        mkdir /etc/mdadm && touch /etc/mdadm/mdadm.conf
         echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
         mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
         mkfs.ext4 /dev/md0
