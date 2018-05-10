@@ -56,6 +56,17 @@ My file `.config` you can find in this repo in the folder homework1 README.md fi
 
 ## Linux Administrator course homework #2
 
+<pre>
+Домашнее задание
+работа с mdadm.
+добавить в Vagrantfile еще дисков
+сломать/починить raid
+собрать R0/R5/R10 на выбор 
+прописать собранный рейд в конф, чтобы рейд собирался при загрузке
+создать GPT раздел и 5 партиций
+
+</pre>
+
 Для выполнения скачал репозиторий, который выложил Алексей, поднял из Vagrantfile виртуалку.
 Поигрался с fdisk, parted, sfdisk,mdadm.
 
