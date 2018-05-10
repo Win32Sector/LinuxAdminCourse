@@ -8,6 +8,17 @@ Table of Contents
 
 ## Linux Administrator course homework #1
 
+<pre>
+Домашнее задание
+
+Делаем собственную сборку ядра
+Взять любую версию ядра с kernel.org
+Подложить файл конфигурации ядра
+Собрать ядро (попутно доставляя необходимые пакеты)
+Прислать результирующий файл конфигурации
+Прислать списк доустановленных пакетов, взять его можно из /var/log/yum.log
+</pre>
+
 In this homework I executed 
 ```
 make && make modules
@@ -58,6 +69,7 @@ My file `.config` you can find in this repo in the folder homework1 README.md fi
 
 <pre>
 Домашнее задание
+
 работа с mdadm.
 добавить в Vagrantfile еще дисков
 сломать/починить raid
@@ -262,6 +274,7 @@ end
 
 <pre>
 Домашнее задание
+
 Работа с LVM
 на имеющемся образе 
 /dev/mapper/VolGroup00-LogVol00 38G 738M 37G 2% /
