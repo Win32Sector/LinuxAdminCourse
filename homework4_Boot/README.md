@@ -63,7 +63,7 @@ mkdir /usr/lib/dracut/modules.d/01test # создал каталог для ск
 И два файла со следующим содержимым:
 
 <details>
-<summary><code>module_setup.sh</code></summary>
+<summary><code>module-setup.sh</code></summary>
 
 Скрипт предназначен для установки модуля test.sh
 
