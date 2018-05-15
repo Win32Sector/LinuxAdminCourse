@@ -32,7 +32,7 @@ chcon -t shadow_t /etc/shadow  #Для выбора корректного ти�
 <summary><code>Установить систему с LVM, после чего переименовать VG</code></summary>
 
 1. Установил CentOS 7 с образа и создал разделы:
-<p align="center"><img src="https://github.com/Win32Sector/LinuxAdminCourse/blob/master/homework4_Boot/media/centos_install_disk_partitioning.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework4_Boot/media/centos_install_disk_partitioning.png"></p>
 
 2. Переименовал VG командой `vgrename centos centos_renamed`
 3. Переименовал vg с именем centos на centos_renamed в файлах 
@@ -149,6 +149,6 @@ bash
 
 При перезагрузке видим нашего Тукса
 
-<p align="center"><img src="https://github.com/Win32Sector/LinuxAdminCourse/blob/master/homework4_Boot/media/dracut_custom_module.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework4_Boot/media/dracut_custom_module.png"></p>
 
 </details>
