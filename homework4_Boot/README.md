@@ -54,6 +54,101 @@ mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
 <details>
 <summary><code>Добавить модуль в initrd</code></summary>
 
+Гуглил чего бы такого добавить в initrd, но ничего этакого не нашел, поэтому, решил использовать модуль, который показывал Александр на занятии. 
 
+```
+mkdir /usr/lib/dracut/modules.d/01test # создал каталог для скриптов установки модуля
+```
+
+И два файла со следующим содержимым:
+
+<details>
+<summary><code>module_setup.sh</code></summary>
+
+Скрипт предназначен для установки модуля test.sh
+
+```
+#!/bin/bash
+
+check() {
+    return 0
+}
+
+depends() {
+    return 0
+}
+
+install() {
+    inst_hook cleanup 00 "${moddir}/test.sh"
+}
+```
+
+</details>
+
+<details>
+<summary><code>test.sh</code></summary>
+
+Сам модуль
+
+```
+#!/bin/bash
+
+exec 0<>/dev/console 1<>/dev/console 2<>/dev/console
+cat <<'msgend'
+
+Hello! You are in dracut module!
+
+ ___________________
+< I'm Tux >
+ -------------------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+msgend
+sleep 10
+echo " continuing...."
+```
+
+</details>
+
+Пересоздал initrd командой
+`mkinitrd -f -v -a test /boot/initramfs-$(uname -r).img $(uname -r)`
+
+Вывод команды
+`lsinitrd -m /boot/initramfs-$(uname -r).img` 
+
+```
+Image: /boot/initramfs-3.10.0-693.el7.x86_64.img: 20M
+========================================================================
+Early CPIO image
+========================================================================
+drwxr-xr-x   3 root     root            0 May 15 03:14 .
+-rw-r--r--   1 root     root            2 May 15 03:14 early_cpio
+drwxr-xr-x   3 root     root            0 May 15 03:14 kernel
+drwxr-xr-x   3 root     root            0 May 15 03:14 kernel/x86
+drwxr-xr-x   2 root     root            0 May 15 03:14 kernel/x86/microcode
+-rw-r--r--   1 root     root        17408 May 15 03:14 kernel/x86/microcode/GenuineIntel.bin
+========================================================================
+Version: dracut-033-502.el7
+
+dracut modules:
+bash
+<b>test</b>
+....
+```
+
+Что говорит о том, что наш кастомный модуль был загружен.
+
+Сделаем `reboot`
+
+При перезагрузке видим нашего Тукса
+
+<p align="center"><img src="https://github.com/Win32Sector/LinuxAdminCourse/blob/master/homework4/media/dracut_custom_module.png"></p>
 
 </details>
