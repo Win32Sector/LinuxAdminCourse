@@ -420,7 +420,7 @@ chcon -t shadow_t /etc/shadow  #Для выбора корректного ти�
 <summary><code>Установить систему с LVM, после чего переименовать VG</code></summary>
 
 1. Установил CentOS 7 с образа и создал разделы:
-<p align="center"><img src="https://github.com/Win32Sector/LinuxAdminCourse/blob/master/homework4_Boot/media/centos_install_disk_partitioning.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework4_Boot/media/centos_install_disk_partitioning.png"></p>
 
 2. Переименовал VG командой `vgrename centos centos_renamed`
 3. Переименовал vg с именем centos на centos_renamed в файлах 
@@ -537,7 +537,65 @@ bash
 
 При перезагрузке видим нашего Тукса
 
-<p align="center"><img src="https://github.com/Win32Sector/LinuxAdminCourse/blob/master/homework4_Boot/media/dracut_custom_module.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework4_Boot/media/dracut_custom_module.png"></p>
 
 </details>
 
+## Linux Administrator course homework #5
+
+Скрипт проверяет текущий уровень LA за минуту и пишет значение LA в лог
+Если последние 5+ минут LA больше 2, собирается информация о нагрузке - 
+Логи top, iotop, список ip-адресов, с которых было больше всего запросов к nginx, 
+mysql processlist, лог отправляется админу на почту.
+скрипт нужно добавить в cron для выполнения раз в минуту. 
+
+Я понимаю, что скрипт до умопомрачения прост и там нет регэкспов, циклов, трапов и функций, но, он позволил решить производственную задачу мониторинга LA на серверах.
+
+<details>
+<summary>system_load_analyzer.sh</code></summary>
+
+```
+#!/usr/bin/env bash
+
+# Скрипт проверяет текущий уровень LA за минуту и пишет значение LA в лог
+# Если последние 5+ минут LA больше 2, собирается информация о нагрузке - 
+# Логи top, iotop, список ip-адресов, с которых было больше всего запросов к nginx, 
+# mysql processlist, лог отправляется админу на почту.
+# скрипт нужно добавить в cron для выполнения раз в минуту. 
+
+uptime |  tr -s " " | cut -d' ' -f9 | cut -d, -f1,2  >> /tmp/load_analize.log
+
+SUM=`tail -n5 /tmp/load_analize.log | awk '{ SUM += $1 } END {print SUM}'`
+
+if [[ $SUM -ge 10 ]]
+then
+    echo -e "\n\nОтчет о повышенной нагрузке $HOSTNAME\n\nВывод uptime\n\n" > /tmp/system_load_analize.log
+
+    echo -e "\nВывод top c сортировкой по использованию MEM\n\n" >> /tmp/system_load_analize.log
+    
+    top -b -o +%MEM -n 1 | sed 1,6d | head -10 >> /tmp/system_load_analize.log
+    
+    echo -e "\nВывод top c сортировкой по использованию CPU\n\n" >> /tmp/system_load_analize.log
+    
+    top -b -o +%CPU -n 1 | sed 1,6d | head -10 >> /tmp/system_load_analize.log
+    
+    echo -e "\nВывод iotop\n\n" >> /tmp/system_load_analize.log
+    
+    iotop -b -n 1 | head -20 >> /tmp/system_load_analize.log
+    
+    echo -e "\nСписок самых активных IP, делающих запросы к нашему NGINX\n\n" >> /tmp/system_load_analize.log
+    
+    cat /var/log/nginx/access.log | cut -d' ' -f1 | sort | uniq -c | sort -nr | tail -n20 >> 
+    /tmp/system_load_analize.log
+    
+    echo -e "\nСписок процессов mysql\n\n" >> /tmp/system_load_analize.log
+    
+    mysql -uroot -p`cat /root/.mysql/root` -e "show processlist" >> /tmp/system_load_analize.log #/root/.mysql/root  это файл с паролем рута, который генерится при создании виртуалки стандартной конфигурации
+    
+    mail -s "Отчет о повышенной нагрузке на сервере $HOSTNAME" web-1m592@mail-tester.com < /tmp/system_load_analize.log
+else
+    exit 0
+fi
+
+```
+</details>
