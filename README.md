@@ -6,6 +6,7 @@ Table of Contents
       * [Linux Administrator course homework #2](#linux-administrator-course-homework-2)
       * [Linux Administrator course homework #3](#linux-administrator-course-homework-3)
       * [Linux Administrator course homework #4](#linux-administrator-course-homework-4)
+      * [Linux Administrator course homework #5](#linux-administrator-course-homework-5)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
