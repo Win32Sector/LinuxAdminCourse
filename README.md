@@ -627,6 +627,23 @@ fi
 ```
 Скрипт доступен в подпапке 2 для этой ДЗ. 
 Наглядно видно, как упростилась жизнь администратора, по сравнению с написанием init-скриптов.
+
+[Unit]
+Description=Spawn-fsgi service
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/sysconfig/spawn-fcgi
+ExecStart=/usr/bin/spawn-fcgi $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+
 ```
 </details>
 
