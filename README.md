@@ -7,8 +7,7 @@ Table of Contents
       * [Linux Administrator course homework #3](#linux-administrator-course-homework-3)
       * [Linux Administrator course homework #4](#linux-administrator-course-homework-4)
       * [Linux Administrator course homework #5](#linux-administrator-course-homework-5)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+      * [Linux Administrator course homework #6](#linux-administrator-course-homework-6)
 
 ## Linux Administrator course homework #1
 
@@ -599,4 +598,48 @@ else
 fi
 
 ```
+</details>
+
+## Linux Administrator course homework #6
+
+```
+1. Написать сервис, который будет раз в 30 секунд мониторить лог на предмет наличия ключевого слова. Файл и слово должны задаваться в /etc/sysconfig
+2. Из epel установить spawn-fcgi и переписать init-скрипт на unit-файл. Имя сервиса должно так же называться.
+3. Дополнить юнит-файл apache httpd возможностьб запустить несколько инстансов сервера с разными конфигами
+```
+<details>
+<summary><code>Написать сервис, который будет раз в 30 секунд мониторить лог на предмет наличия ключевого слова. Файл и слово должны задаваться в /etc/sysconfig</code></summary>
+
+
+Сервис работает следующим образом: раз в 30 секунд грепает в конфиге, определенном в EnvironmentFile /etc/sysconfig/grep_log, слово, определенное там же ( соответствующие переменные $FILE и $WORD)
+
+Сам сервис представлен файлами /libsystemd/system/grep_log.service и grep_log.timer.
+Первый описывает функционал сервиса, второй его периодический запуск раз в 30 секунд.
+</details>
+
+<details>
+<summary><code>Из epel установить spawn-fcgi и переписать init-скрипт на unit-файл. Имя сервиса должно так же называться.</code></summary>
+
+Скрипт доступен в подпапке 2 для этой ДЗ. Наглядно видно, как упростилась жизнь администратора, по сравнению с написанием init-скриптов.
+
+</details>
+
+<details>
+<summary><code>Дополнить юнит-файл apache httpd возможностьб запустить несколько инстансов сервера с разными конфигами</code></summary>
+
+
+Добавил в файл /lib/systemd/system/httpd@.service в путь к EnvironmentFile, спецификатор %i
+
+```
+EnvironmentFile=/etc/sysconfig/httpd-%i
+```
+Что позволило создать множество файлов конфигурации, которые с помощью параметра OPTIONS указывают на различные файлы конфигов, например, /etc/httpd/conf/httpd-{new1,new2,new3} 
+
+Запуск производится так:
+
+```
+systemctl start httpd@new1.service
+```
+
+Все это доступно в виртуальной машине в GCP, запущенной по адресу 35.205.116.131
 </details>
