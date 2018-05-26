@@ -665,7 +665,6 @@ EnvironmentFile=/etc/sysconfig/httpd-%i
 ```
 systemctl start httpd@new1.service
 ```
-
-Все это доступно в виртуальной машине в GCP, запущенной по адресу 35.205.116.131
 ```
 </details>
+Все это доступно в виртуальной машине в GCP, запущенной по адресу 35.205.116.131
