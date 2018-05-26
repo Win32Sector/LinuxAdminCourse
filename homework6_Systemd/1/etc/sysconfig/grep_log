@@ -1,0 +1,8 @@
+# This is config of grep_log service
+# It contains two variables: $FILE and $WORD
+# grep_log.service takes its and trying to find $WORD in the $FILE
+# If it will do this, it will be in the journald
+# Sorry for my bad English.
+
+FILE=/var/log/messages
+WORD=NetworkManager

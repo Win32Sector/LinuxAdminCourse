@@ -1,0 +1,14 @@
+[Unit]
+Description=grep log service
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/grep_log
+ExecStart=/usr/bin/grep $WORD $FILE
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Spawn-fsgi service
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/sysconfig/spawn-fcgi
+ExecStart=/usr/bin/spawn-fcgi $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

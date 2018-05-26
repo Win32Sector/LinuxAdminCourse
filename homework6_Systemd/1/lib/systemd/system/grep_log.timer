@@ -1,0 +1,9 @@
+[Unit]
+Description=timer for grep_log.service
+ 
+[Timer]
+OnCalendar=*:*:0,30
+Unit=grep_log.service
+
+[Install]
+WantedBy=timers.target
