@@ -15,29 +15,28 @@
 <details>
 <summary>Создать свой RPM</summary>
 
-```
+
 Процесс выглядел так:
 
 Создал дерево каталогов для сборки
+```
 rpmdev-setuptree
-
+```
 Скачал и установил src-пакет для сборки
+```
 rpm -Uvh nginx-1.12.0-1.el7.ngx.src.rpm
-
+```
 Склонировал с github необходимый модуль
+```
 git clone https://github.com/kyprizel/testcookie-nginx-module.git
-
+```
 Отредактировал SPECS/nginx.spec в части %build добавил опцию
-
 ```
 --add-dynamic-module=/home/builder/testcookie-nginx-module/
 ```
-
-Запустил сборку rpm, попросила доустановить зависимости, поставил, потом отредактировал spec-файл в части %files добавив testcookie-nginx-module.so
+Запустил сборку rpm, попросила доустановить зависимости, поставил, потом отредактировал spec-файл в части %files, добавив testcookie-nginx-module.so,
 
 Запустил заново
-
-
 ```
 rpmbuild -bb nginx.spec -D 'debug_package %{nil}'
 ```
@@ -45,5 +44,4 @@ rpmbuild -bb nginx.spec -D 'debug_package %{nil}'
 
 Ииииииии он собрался.
 
-```
 </details>
