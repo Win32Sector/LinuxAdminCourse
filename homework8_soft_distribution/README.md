@@ -1,43 +1,49 @@
-## Linux Administrator course homework #7
-
-Скрипт запускает два задания на архивирование каталога boot один с наивысшим приоритетом, другой с низшим приоритетом.
-
-В лог пишется date пачала выполнения и окончания выполнения команд архивирования.
-
-Как видно по итогам выполнения, команда, имеющаяя более высокий приоритет, выполняется быстрее, даже будучи запущенной второй.
-
-<details>
-<summary>nice_proc.sh</code></summary>
+## Linux Administrator course homework #8
 
 ```
-#!/usr/bin/env bash
+Размещаем свой RPM в своем репозитории
+1) создать свой RPM (можно взять свое приложение, либо собрать к примеру апач с определенными опциями)
+2) создать свой репо и разместить там свой RPM
+реализовать это все либо в вагранте, либо развернуть у себя через nginx и дать ссылку на репо 
 
-rm -rf /tmp/archive_{low,high}.tar.gz > /dev/null 2>&1
-echo "" > nice_log.log
+* реализовать дополнительно пакет через docker
+```
 
-lowpri() {
+Для выполнения домашней работы выбрал собрать пакет nginx с модулем защиты от DDoS [testcookie-nginx-module](https://github.com/kyprizel/testcookie-nginx-module), чтобы получить rpm пакет с уже интегрированным модулем.
+ 
 
-    echo "[`date`] Start of script with low priority\n" > nice_log.log
+<details>
+<summary>Создать свой RPM</summary>
 
-    nice -20 tar czvf /tmp/archive_low.tar.gz /boot/* > /dev/null  2>&1
+```
+Процесс выглядел так:
 
-    echo "[`date`] End of script with low priority\n" >> nice_log.log
+Создал дерево каталогов для сборки
+rpmdev-setuptree
 
-}
+Скачал и установил src-пакет для сборки
+rpm -Uvh nginx-1.12.0-1.el7.ngx.src.rpm
 
-hipri() {
+Склонировал с github необходимый модуль
+git clone https://github.com/kyprizel/testcookie-nginx-module.git
 
-    echo "[`date`] Start of script with high priority\n" >> nice_log.log
+Отредактировал SPECS/nginx.spec в части %build добавил опцию
 
-    nice --19 tar czvf /tmp/archive_high.tar.gz /boot/* > /dev/null  2>&1
+```
+--add-dynamic-module=/home/builder/testcookie-nginx-module/
+```
 
-    echo "[`date`] End of script with high priority\n" >> nice_log.log
+Запустил сборку rpm, попросила доустановить зависимости, поставил, потом отредактировал spec-файл в части %files добавив testcookie-nginx-module.so
 
-}
+Запустил заново
 
-lowpri &
-hipri &
 
-cat nice_log.log
+```
+rpmbuild -bb nginx.spec -D 'debug_package %{nil}'
+```
+(-D 'debug_package %{nil}' - был необходим из-за [бага](https://bugzilla.redhat.com/show_bug.cgi?id=304121) rpm, который висит с 2007 года и при определенных условиях не собирается rpm из-за debug-модуля )
+
+Ииииииии он собрался.
+
 ```
 </details>
