@@ -10,6 +10,11 @@ Table of Contents
       * [Linux Administrator course homework #6](#linux-administrator-course-homework-6)
       * [Linux Administrator course homework #7](#linux-administrator-course-homework-7)
       * [Linux Administrator course homework #8](#linux-administrator-course-homework-8)
+         * [Дано](#Дано)
+         * [Планируемая архитектура](#Планируемая-архитектура)
+         * [Теоретическая часть](#Теоретическая-часть)
+         * [Практическая часть](#Практическая-часть)
+   * [Выполнение домашней работы](#Выполнение-домашней-работы)
 
 ## Linux Administrator course homework #1
 
