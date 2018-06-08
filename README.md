@@ -10,11 +10,7 @@ Table of Contents
       * [Linux Administrator course homework #6](#linux-administrator-course-homework-6)
       * [Linux Administrator course homework #7](#linux-administrator-course-homework-7)
       * [Linux Administrator course homework #8](#linux-administrator-course-homework-8)
-         * [Дано](#Дано)
-         * [Планируемая архитектура](#Планируемая-архитектура)
-         * [Теоретическая часть](#Теоретическая-часть)
-         * [Практическая часть](#Практическая-часть)
-   * [Выполнение домашней работы](#Выполнение-домашней-работы)
+      * [Linux Administrator course homework #9](#linux-administrator-course-homework-9)
 
 ## Linux Administrator course homework #1
 
@@ -795,7 +791,9 @@ priority=1
 Затем, попробовать установить пакет nginx.
 </details>
 
-### Дано
+## Linux Administrator course homework #9
+
+Дано
 Vagrantfile с начальным  построением сети
 inetRouter
 centralRouter
@@ -803,7 +801,8 @@ centralServer
 
 тестировалось на virtualbox
 
-### Планируемая архитектура
+
+Планируемая архитектура
 построить следующую архитектуру
 
 Сеть office1
@@ -837,20 +836,24 @@ Office2----/
 - office1Server
 - office2Server
 
-### Теоретическая часть
+
+
+Теоретическая часть
 - Найти свободные подсети
 - Посчитать сколько узлов в каждой подсети, включая свободные
 - Указать broadcast адрес для каждой подсети
 - проверить нет ли ошибок при разбиении
 
-### Практическая часть
+
+
+Практическая часть
 - Соединить офисы в сеть согласно схеме и настроить роутинг
 - Все сервера и роутеры должны ходить в инет черз inetRouter
 - Все сервера должны видеть друг друга
 - у всех новых серверов отключить дефолт на нат (eth0), который вагрант поднимает для связи
 - при нехватке сетевых интервейсов добавить по несколько адресов на интерфейс
 
-# Выполнение домашней работы
+Выполнение домашней работы
 
 Выполненная работа в файле Vagrantfile
 
