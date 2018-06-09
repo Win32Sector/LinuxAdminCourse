@@ -62,6 +62,15 @@ MACHINES = {
               {ip: '192.168.1.192', adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "hardware2-net"},
             ]
   }, 
+
+  :office2Server => {
+    :box_name => "centos/7",
+    :net => [
+               {ip: '192.168.1.2', adapter: 2, netmask: "255.255.255.128", virtualbox__intnet: "dev1-net"},
+               {adapter: 3, auto_config: false, virtualbox__intnet: true},
+               {adapter: 4, auto_config: false, virtualbox__intnet: true},
+            ]
+},
   
 }
 
