@@ -58,7 +58,7 @@ MACHINES = {
     :net => [
               {ip: '10.1.2.2', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "central-net2"},
               {ip: '192.168.1.1', adapter: 3, netmask: "255.255.255.128", virtualbox__intnet: "dev2-net"},
-              {ip: '192.168.1.129', adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "testservers1-net"},
+              {ip: '192.168.1.129', adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "testservers2-net"},
               {ip: '192.168.1.192', adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "hardware2-net"},
             ]
   }, 
