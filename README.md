@@ -11,6 +11,7 @@ Table of Contents
       * [Linux Administrator course homework #7](#linux-administrator-course-homework-7)
       * [Linux Administrator course homework #8](#linux-administrator-course-homework-8)
       * [Linux Administrator course homework #9](#linux-administrator-course-homework-9)
+      * [Linux Administrator course homework #10](#linux-administrator-course-homework-10)
 
 ## Linux Administrator course homework #1
 
