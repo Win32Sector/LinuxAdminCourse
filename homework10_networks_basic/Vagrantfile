@@ -8,7 +8,6 @@ MACHINES = {
         :box_name => "centos/6",
         #:public => {:ip => '10.10.10.1', :adapter => 1},
         :net => [
-                  #{ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"},
                   {adapter: 2, auto_config: false, virtualbox__intnet: "router-net"},
                   {adapter: 3, auto_config: false, virtualbox__intnet: "router-net"},
                 ]
@@ -16,14 +15,11 @@ MACHINES = {
   :centralRouter => {
         :box_name => "centos/7",
         :net => [
-                  #{ip: '192.168.255.2', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"},
                   {adapter: 2, auto_config: false, virtualbox__intnet: "router-net"},
                   {adapter: 3, auto_config: false, virtualbox__intnet: "router-net"},
                   {ip: '10.1.1.1', adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "central-net1"},
                   {ip: '10.1.2.1', adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "central-net2"},
-                  {adapter: 6, auto_config: false, virtualbox__intnet: "dir-net"},
-                  #{ip: '192.168.0.33', adapter: 5, netmask: "255.255.255.240", virtualbox__intnet: "hw-net"},
-                  #{ip: '192.168.0.65', adapter: 6, netmask: "255.255.255.192", virtualbox__intnet: "wi-fi-net"},                 
+                  {adapter: 6, auto_config: false, virtualbox__intnet: "dir-net"},               
                 ]
   },
   
