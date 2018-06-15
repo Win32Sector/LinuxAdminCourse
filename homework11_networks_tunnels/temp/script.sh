@@ -12,7 +12,7 @@ echo "yes" | /usr/share/easy-rsa/3/easyrsa init-pki
 echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa build-ca nopass
 echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server openvpnserver nopass
 echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req server server
-/usr/share/easy-rsa/3/easyrsa gen-dh
+/usr/share/easy-rsa/3/easyrsa gen-dh > /dev/null 2>&1
 cp -ar /usr/share/easy-rsa/3/pki/ca.crt /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/private/ca.key /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/issued/server.crt /etc/openvpn
