@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
         box.vm.synced_folder "temp/", "/srv"
 
         config.vm.provider "virtualbox" do |v|
-          v.memory = 128
+          v.memory = 256
         end
 
         boxconfig[:net].each do |ipconf|

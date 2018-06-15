@@ -40,3 +40,4 @@ setenforce 0
 
 systemctl start openvpn@server
 systemctl enable openvpn@server
+systemctl status openvpn
