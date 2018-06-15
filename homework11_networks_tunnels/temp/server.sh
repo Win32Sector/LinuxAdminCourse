@@ -10,16 +10,19 @@ yum install -y openvpn easy-rsa
 cd /usr/share/easy-rsa/3
 echo "yes" | /usr/share/easy-rsa/3/easyrsa init-pki
 echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa build-ca nopass
-echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server openvpnserver nopass
+echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server nopass
 echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req server server
-echo '/usr/share/easy-rsa/3/easyrsa gen-dh'
-/usr/share/easy-rsa/3/easyrsa gen-dh > /dev/null 2>&1
+/usr/share/easy-rsa/3/easyrsa gen-dh
+/usr/sbin/openvpn --genkey --secret ta.key
+
 cp -ar /usr/share/easy-rsa/3/pki/ca.crt /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/ca.crt /srv
 cp -ar /usr/share/easy-rsa/3/pki/private/ca.key /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/issued/server.crt /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/private/server.key /etc/openvpn
 cp -ar /usr/share/easy-rsa/3/pki/dh.pem /etc/openvpn
+cp -ar /usr/share/easy-rsa/3/ta.key /etc/openvpn
+cp -ar /usr/share/easy-rsa/3/ta.key /srv
 
 #Generating client certificates
 
@@ -39,7 +42,7 @@ echo "iroute 192.168.2.0 255.255.255.0" > /etc/openvpn/ccd/client
 setenforce 0
 
 #Service start
-
+sleep 10
 systemctl start openvpn@server
 systemctl enable openvpn@server
 
@@ -47,5 +50,6 @@ systemctl enable openvpn@server
 
 ss -ua | grep openvpn
 systemctl status openvpn@server
+ip a
 
 

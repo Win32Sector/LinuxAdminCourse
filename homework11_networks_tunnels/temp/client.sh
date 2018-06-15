@@ -9,14 +9,15 @@ yum install -y openvpn easy-rsa
 
 #Installing keys
 
-mv -ar /srv/client.conf /etc/openvpn
-mv -ar /srv/ca.crt /etc/openvpn
-mv -ar /srv/client.crt /etc/openvpn
-mv -ar /srv/client.key /etc/openvpn
-
+cp -ar /srv/client.conf /etc/openvpn
+cp -ar /srv/ca.crt /etc/openvpn
+cp -ar /srv/client.crt /etc/openvpn
+cp -ar /srv/client.key /etc/openvpn
+cp -ar /srv/ta.key /etc/openvpn
 
 
 mkdir /var/log/openvpn
+sleep 10
 systemctl start openvpn@client
 systemctl enable openvpn@client
 
@@ -24,3 +25,4 @@ systemctl enable openvpn@client
 
 ss -ua | grep openvpn
 systemctl status openvpn@client
+ip a
