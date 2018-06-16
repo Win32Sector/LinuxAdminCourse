@@ -12,6 +12,7 @@ Table of Contents
       * [Linux Administrator course homework #8](#linux-administrator-course-homework-8)
       * [Linux Administrator course homework #9](#linux-administrator-course-homework-9)
       * [Linux Administrator course homework #10](#linux-administrator-course-homework-10)
+      * [Linux Administrator course homework #11](#linux-administrator-course-homework-11)
 
 ## Linux Administrator course homework #1
 
@@ -945,3 +946,118 @@ hw 192.168.2.192/26 - бродкаст - 192.168.2.255
 В Vagrantfile.
 
 Для проверки работы проекта, нужно клонировать репозиторий и выполнить `vagrant up` из каталога `homework10_networks_basic`.
+
+## Linux Administrator course homework #11
+
+
+<details>
+<summary><code>Домашнее задание</code></summary>
+VPN
+1. Между двумя виртуалками поднять vpn в режимах
+- tun
+- tap
+Прочуствовать разницу.
+
+2. Поднять RAS на базе OpenVPN с клиентскими сертификатами, подключиться с локальной машины на виртуалку
+</details>
+
+<details>
+<summary><code>Первая задача</code></summary>
+
+Для проверки работы проекта необходимо
+
+клонировать репозиторий,
+
+В каталоге homework11_networks_tunnels/1 есть 3 файла 
+
+```
+emergency.key
+Vagrantfile_tap
+Vagrantfile_tun
+```
+
+из каталога homework11_networks_tunnels/1 выполнить переименование соответствующего файла Vagrantfile
+
+и выполнить `vagrant up`
+
+В процессе провижинга будут развернуты 2 виртуальные машины - centralRouter и office1Router,
+
+на роутерах будет установлен openvpn и iperf, также будет скопирован файл ключа emergency.key и 
+
+созданы конфигурационные файлы openvpn
+
+В конце развертывания iperf выполнить тестирование скорости соединения.
+
+В результате приходим к выводу, что скорость передачи на tun выше, чем на tap:
+
+
+```
+    office1Router: Network speed on tap interface
+    office1Router: ------------------------------------------------------------
+    office1Router: Client connecting to 10.10.10.1, TCP port 5001
+    office1Router: TCP window size: 45.0 KByte (default)
+    office1Router: ------------------------------------------------------------
+    office1Router: [  3] local 10.10.10.2 port 59666 connected with 10.10.10.1 port 5001
+    office1Router: [ ID] Interval       Transfer     Bandwidth
+    office1Router: [  3]  0.0- 5.0 sec  72.9 MBytes   122 Mbits/sec
+    office1Router: [  3]  5.0-10.0 sec  71.4 MBytes   120 Mbits/sec
+    office1Router: [  3] 10.0-15.0 sec  59.2 MBytes  99.4 Mbits/sec
+    office1Router: [  3] 15.0-20.0 sec  64.9 MBytes   109 Mbits/sec
+    office1Router: [  3]  0.0-20.0 sec   268 MBytes   112 Mbits/sec
+```
+
+```
+    office1Router: Network speed on tun interface
+    office1Router: ------------------------------------------------------------
+    office1Router: Client connecting to 10.10.10.1, TCP port 5001
+    office1Router: TCP window size: 76.5 KByte (default)
+    office1Router: ------------------------------------------------------------
+    office1Router: [  3] local 10.10.10.2 port 35772 connected with 10.10.10.1 port 5001
+    office1Router: [ ID] Interval       Transfer     Bandwidth
+    office1Router: [  3]  0.0- 5.0 sec  84.1 MBytes   141 Mbits/sec
+    office1Router: [  3]  5.0-10.0 sec  82.1 MBytes   138 Mbits/sec
+    office1Router: [  3] 10.0-15.0 sec  84.4 MBytes   142 Mbits/sec
+    office1Router: [  3] 15.0-20.0 sec  81.4 MBytes   137 Mbits/sec
+    office1Router: [  3]  0.0-20.0 sec   332 MBytes   139 Mbits/sec
+```
+
+</details>
+
+<details>
+<summary><code>Вторая задача</code></summary>
+
+Для проверки работы проекта необходимо
+
+клонировать репозиторий,
+
+В каталоге homework11_networks_tunnels/2 есть 2 файла 
+
+```
+client.conf
+Vagrantfile
+```
+
+из каталога homework11_networks_tunnels/2 выполнить `vagrant up`
+
+В процессе провижинга будет развернута виртуальная машина openvpnserver,
+
+будет установлен openvpn, создан СА, сгенерированы ключи сервера и клиента,
+
+создан конфигурационный файл openvpn сервера, все это можно найти в каталоге
+
+`/etc/openvpn` сервера. Для дальнейшего подключения, необходимо скопировать с виртуальной машины
+
+файлы ca.crt, client.crt и client.key и положить их рядом с конфигом client.conf из каталога данной задачи.
+
+Также, в конфиге client.conf необходимо заменить ip-адрес сервера в опции remote
+
+Адрес можно получить, выполнив `ip a` на виртуальной машине или из вывода ip a в конце скрипта развертывания.
+
+Потом нужно открыть конфиг файл client.conf с помощью любимого openvpn-приложения 
+
+и вы будете подключены к openvpnserver. 
+
+Проверить подключение можно пропинговав адрес 10.0.0.1 со своей машины.
+
+
+</details>
