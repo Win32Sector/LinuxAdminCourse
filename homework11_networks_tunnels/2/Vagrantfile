@@ -8,7 +8,7 @@ MACHINES = {
   :ovpnserver => {
         :box_name => "centos/7",
         :net => [
-                   {ip: '192.168.0.1', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
+                   {ip: '192.168.20.1', adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
                    
                 ]
   },
@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
 
         box.vm.box = boxconfig[:box_name]
         box.vm.host_name = boxname.to_s
-        box.vm.synced_folder "temp/", "/srv"
 
         config.vm.provider "virtualbox" do |v|
           v.memory = 256
@@ -31,6 +30,7 @@ Vagrant.configure("2") do |config|
 
         boxconfig[:net].each do |ipconf|
           box.vm.network "private_network", ipconf
+          box.vm.network "public_network"
         end
 
         box.vm.provision "shell", inline: <<-SHELL
@@ -42,18 +42,75 @@ Vagrant.configure("2") do |config|
 
           when "ovpnserver"
             box.vm.provision "shell", run: "always", inline: <<-SHELL
+              setenforce 0
               echo net.ipv4.conf.all.forwarding=1  >> /etc/sysctl.conf
               echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf
               sysctl -p /etc/sysctl.conf
               systemctl restart network
-              iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
-              iptables -A INPUT -p UDP --dport 1194 -j ACCEPT
-              iptables -A OUTPUT -p udp --sport 1194 -j ACCEPT
-              iptables -A FORWARD -s 10.10.0.0/24 -d 192.168.0.0/24 -j ACCEPT
-              iptables -A FORWARD -d 10.10.0.0/24 -s 192.168.0.0/24 -j ACCEPT
-              ip route add 192.168.0.0/16 via 192.168.0.2
-              chmod +x /srv/server.sh
-              /srv/server.sh
+              
+              #Installing packages
+              yum install -y epel-release
+              yum install -y openvpn easy-rsa
+
+              #Generating server certs
+              cd /usr/share/easy-rsa/3
+              echo "yes" | /usr/share/easy-rsa/3/easyrsa init-pki
+              echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa build-ca nopass
+              echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server nopass
+              echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req server server
+              /usr/share/easy-rsa/3/easyrsa gen-dh
+              /usr/sbin/openvpn --genkey --secret ta.key
+
+              cp -ar /usr/share/easy-rsa/3/pki/ca.crt /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/pki/private/ca.key /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/pki/issued/server.crt /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/pki/private/server.key /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/pki/dh.pem /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/ta.key /etc/openvpn
+
+              #Generating client certificates
+
+              echo "client" | /usr/share/easy-rsa/3/easyrsa gen-req client nopass
+              echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req client client
+              cp -ar /usr/share/easy-rsa/3/pki/issued/client.crt /etc/openvpn
+              cp -ar /usr/share/easy-rsa/3/pki/private/client.key /etc/openvpn
+
+
+              #Create server config
+              echo 'port 1194' > /etc/openvpn/server.conf
+              echo 'proto udp' >> /etc/openvpn/server.conf
+              echo 'dev tun' >> /etc/openvpn/server.conf
+              echo 'ca /etc/openvpn/ca.crt' >> /etc/openvpn/server.conf
+              echo 'cert /etc/openvpn/server.crt' >> /etc/openvpn/server.conf
+              echo 'key /etc/openvpn/server.key' >> /etc/openvpn/server.conf
+              echo 'dh /etc/openvpn/dh.pem' >> /etc/openvpn/server.conf
+              echo 'server 10.0.0.0 255.255.255.0' >> /etc/openvpn/server.conf
+              echo 'ifconfig-pool-persist ipp.txt' >> /etc/openvpn/server.conf
+              echo 'client-to-client' >> /etc/openvpn/server.conf
+              echo 'client-config-dir /etc/openvpn/ccd' >> /etc/openvpn/server.conf
+              echo 'route 192.168.20.0 255.255.255.0' >> /etc/openvpn/server.conf
+              echo 'push "route 192.168.20.0 255.255.255.0"' >> /etc/openvpn/server.conf
+              echo 'keepalive 10 120' >> /etc/openvpn/server.conf
+              echo 'persist-key' >> /etc/openvpn/server.conf
+              echo 'persist-tun' >> /etc/openvpn/server.conf
+              echo 'comp-lzo' >> /etc/openvpn/server.conf
+              echo 'status /var/log/openvpn-status.log' >> /etc/openvpn/server.conf
+              echo 'log /var/log/openvpn.log' >> /etc/openvpn/server.conf
+              echo 'verb 3' >> /etc/openvpn/server.conf
+
+              mkdir /etc/openvpn/ccd && mkdir /var/log/openvpn
+              echo "iroute 192.168.20.0 255.255.255.0" > /etc/openvpn/ccd/client
+
+              #Service start
+              sleep 10
+              systemctl start openvpn@server
+              systemctl enable openvpn@server
+
+              #Check status
+
+              ss -ua | grep openvpn
+              systemctl status openvpn@server
+              ip a
               SHELL
           
         end
