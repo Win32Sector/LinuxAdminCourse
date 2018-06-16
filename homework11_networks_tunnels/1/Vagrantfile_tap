@@ -1,0 +1,107 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+
+  :centralRouter => {
+        :box_name => "centos/7",
+        :net => [
+                   {ip: '192.168.0.1', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
+                   
+                ]
+  },
+
+  :office1Router => {
+        :box_name => "centos/7",
+        :net => [
+                    {ip: '192.168.0.2', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
+                ]
+  },
+}
+
+Vagrant.configure("2") do |config|
+
+  MACHINES.each do |boxname, boxconfig|
+      
+    config.vm.define boxname do |box|
+
+        box.vm.box = boxconfig[:box_name]
+        box.vm.host_name = boxname.to_s
+
+        config.vm.provider "virtualbox" do |v|
+          v.memory = 256
+        end
+
+        boxconfig[:net].each do |ipconf|
+          box.vm.network "private_network", ipconf
+        end
+
+        box.vm.provision "shell", inline: <<-SHELL
+          mkdir -p ~root/.ssh
+                cp ~vagrant/.ssh/auth* ~root/.ssh
+        SHELL
+        
+        case boxname.to_s
+
+          when "centralRouter"
+            box.vm.provision "shell", run: "always", inline: <<-SHELL
+              setenforce 0
+              #Installing packets
+              yum install -y epel-release
+              yum install -y openvpn iperf
+              #Create server config
+              echo 'dev tap' > /etc/openvpn/server.conf
+              echo 'ifconfig 10.10.10.1 255.255.255.0' >> /etc/openvpn/server.conf
+              echo 'topology subnet' >> /etc/openvpn/server.conf
+              echo 'secret /vagrant/emergency.key' >> /etc/openvpn/server.conf
+              echo 'comp-lzo' >> /etc/openvpn/server.conf
+              echo 'status /var/log/openvpn-status.log' >> /etc/openvpn/server.conf
+              echo 'log /var/log/openvpn.log' >> /etc/openvpn/server.conf
+              echo 'verb 3' >> /etc/openvpn/server.conf
+              #Service start
+              systemctl start openvpn@server
+              systemctl enable openvpn@server
+              #Check status
+              sleep 10
+              ip a
+              iperf -s &
+              SHELL
+          when "office1Router"
+            box.vm.provision "shell", run: "always", inline: <<-SHELL
+              #ZADOLBAL!
+              setenforce 0
+              #Installing packets
+              yum install -y epel-release
+              yum install -y openvpn iperf
+              #Create client config
+              echo 'dev tap' > /etc/openvpn/client.conf
+              echo 'remote 192.168.0.1' >> /etc/openvpn/client.conf
+              echo 'ifconfig 10.10.10.2 255.255.255.0' >> /etc/openvpn/client.conf
+              echo 'topology subnet' >> /etc/openvpn/client.conf
+              echo 'secret /vagrant/emergency.key' >> /etc/openvpn/client.conf
+              echo 'comp-lzo' >> /etc/openvpn/client.conf
+              echo 'status /var/log/openvpn-status.log' >> /etc/openvpn/client.conf
+              echo 'log /var/log/openvpn.log' >> /etc/openvpn/client.conf
+              echo 'verb 3' >> /etc/openvpn/client.conf
+              #Service start
+              systemctl start openvpn@client
+              systemctl enable openvpn@client
+              #Check status
+              echo "========================================="
+              echo "========================================="
+              echo "sleeping 10 sec"
+              echo "========================================="
+              echo "========================================="
+              sleep 10
+              ip a
+              ping -c 5 10.10.10.1
+              #Check speed of tap network
+              echo "Network speed on tap interface"
+              iperf -c 10.10.10.1 -t 20 -i 5
+              SHELL
+        end
+      end
+  end
+end
