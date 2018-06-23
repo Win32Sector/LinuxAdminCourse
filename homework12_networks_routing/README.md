@@ -17,4 +17,4 @@ OSPF
 
 В результате поднимутся три роутера в структуре как на схеме ниже
 
-<p align="center"><img src="LinuxAdminCourse/homework12_networks_routing/1/ospfmap.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework12_networks_routing/1/ospfmap.png"></p>
