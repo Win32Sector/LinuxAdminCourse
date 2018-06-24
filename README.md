@@ -1748,7 +1748,7 @@ log file /var/log/quagga/ospfd.log
 ```
 
 </details>
-
+<details>
 <summary><code>/etc/quagga/ospfd.conf на R3</code></summary>
 
 ```
