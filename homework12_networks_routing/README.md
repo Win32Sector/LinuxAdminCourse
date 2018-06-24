@@ -208,7 +208,7 @@ ripngd=no
 ```
 
 </details>
-
+<details>
 <summary><code>/etc/quagga/ospfd.conf</code></summary>
 
 ```
@@ -228,7 +228,7 @@ log file /var/log/quagga/ospfd.log
 ```
 
 </details>
-
+<details>
 <summary><code>/etc/quagga/zebra.conf</code></summary>
 
 ```
