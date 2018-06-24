@@ -1319,7 +1319,7 @@ ip address 192.168.13.1/30
 
 запуcтить `vagrant up`
 
-Для этого, я повесил cost 300 на интерфейс vlan13 роутера R1 как на схеме.
+Для выполнения задачи, я повесил cost 300 на интерфейс vlan13 роутера R1 как на схеме.
 
 <p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework12_networks_routing/2/ospfmap2.png"></p>
 
@@ -1566,7 +1566,7 @@ root@R3 vagrant]# tracepath 10.1.0.1
 
 запуcтить `vagrant up`
 
-Для этого, я повесил cost 300 на интерфейс vlan13 роутера R1 и роутера R3 как на схеме.
+Для выполнения задачи, я повесил cost 300 на интерфейс vlan13 роутера R1 и роутера R3 как на схеме.
 
 <p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework12_networks_routing/3/ospfmap3.png"></p>
 
@@ -1787,7 +1787,7 @@ ip address 192.168.13.1/30
 ```
 
 </details>
-</details>
+
 
 <details>
 <summary><code>вывод tracepath</code></summary>
@@ -1819,4 +1819,5 @@ ip address 192.168.13.1/30
 <br><br>
 **Все network-скрипты и файлы конфигурации quagga 
 можно увидеть в каталоге network-scripts**
+</details>
 </details>
