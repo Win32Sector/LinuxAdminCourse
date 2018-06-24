@@ -51,7 +51,7 @@ OSPF
 <summary><code>Вывод ip a</code></summary>
 
 
-<details>
+<details style="text-indent:100px">
 <summary><code>R1</code></summary>
 
 ```
@@ -97,7 +97,7 @@ OSPF
 ```
 </details>
 
-<details>
+<details style="text-indent:100px">
 <summary><code>R2</code></summary>
 
 ```
@@ -143,7 +143,7 @@ OSPF
 ```
 </details>
 
-<details>
+<details style="text-indent:100px">
 <summary><code>R3</code></summary>
 
 ```
