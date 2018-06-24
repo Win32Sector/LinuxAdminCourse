@@ -1313,6 +1313,12 @@ ip address 192.168.13.1/30
 <details>
 <summary><code>Задача 2 Изобразить ассиметричный роутинг</code></summary>
 
+Проверить выполнение можно клонировав себе этот репозиторий
+
+Затем необходимо из каталога /homework12_network_routing/2
+
+запуcтить `vagrant up`
+
 Для этого, я повесил cost 300 на интерфейс vlan13 роутера R1 как на схеме.
 
 <p align="center"><img src="https://raw.githubusercontent.com/Win32Sector/LinuxAdminCourse/master/homework12_networks_routing/2/ospfmap2.png"></p>
@@ -1554,6 +1560,11 @@ root@R3 vagrant]# tracepath 10.1.0.1
 <details>
 <summary><code>Задача 3 Сделать один из линков "дорогим", но что бы при этом роутинг был симметричным</code></summary>
 
+Проверить выполнение можно клонировав себе этот репозиторий
+
+Затем необходимо из каталога /homework12_network_routing/3
+
+запуcтить `vagrant up`
 
 Для этого, я повесил cost 300 на интерфейс vlan13 роутера R1 и роутера R3 как на схеме.
 
