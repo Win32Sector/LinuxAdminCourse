@@ -50,8 +50,8 @@ OSPF
 <details>
 <summary><code>Вывод ip a</code></summary>
 
-
-<details style="text-indent:100px">
+<div style="float:left; margin-left:150px;">
+<details>
 <summary><code>R1</code></summary>
 
 ```
@@ -97,7 +97,7 @@ OSPF
 ```
 </details>
 
-<details style="text-indent:100px">
+<details>
 <summary><code>R2</code></summary>
 
 ```
@@ -143,7 +143,7 @@ OSPF
 ```
 </details>
 
-<details style="text-indent:100px">
+<details>
 <summary><code>R3</code></summary>
 
 ```
@@ -188,6 +188,8 @@ OSPF
        valid_lft forever preferred_lft forever
 ```
 </details>
+</div>
+
 </details>
 
 <details>
