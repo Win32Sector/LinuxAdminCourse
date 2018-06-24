@@ -197,6 +197,7 @@ OSPF
 
 <details>
 <summary><code>/etc/quagga/daemons</code></summary>
+
 ```
 zebra=yes
 bgpd=no
@@ -205,6 +206,7 @@ ospf6d=no
 ripd=no
 ripngd=no
 ```
+
 </details>
 
 <summary><code>/etc/quagga/ospfd.conf</code></summary>
