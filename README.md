@@ -1787,7 +1787,7 @@ ip address 192.168.13.1/30
 ```
 
 </details>
-
+</details>
 
 <details>
 <summary><code>вывод tracepath</code></summary>
