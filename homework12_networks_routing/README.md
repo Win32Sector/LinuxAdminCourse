@@ -232,6 +232,10 @@ ip address 192.168.13.1/30
 
 </details>
 
+<br><br>
+**Все network-скрипты и файлы конфигурации quagga 
+можно увидеть в каталоге network-scripts**
+
 ## Задача 2 Изобразить ассиметричный роутинг
 
 Для этого, я повесил cost 300 на интерфейс vlan13 роутера R1 как на схеме.
@@ -467,7 +471,7 @@ root@R3 vagrant]# tracepath 10.1.0.1
 
 </details>
 
-
+<br><br>
 **Все network-скрипты и файлы конфигурации quagga 
 можно увидеть в каталоге network-scripts**
 
@@ -723,5 +727,6 @@ ip address 192.168.13.1/30
 
 </details>
 
-Все network-скрипты и файлы конфигурации quagga 
-можно увидеть в каталоге network-scripts
+<br><br>
+**Все network-скрипты и файлы конфигурации quagga 
+можно увидеть в каталоге network-scripts**
