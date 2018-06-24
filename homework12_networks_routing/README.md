@@ -51,8 +51,8 @@ OSPF
 <summary><code>Вывод ip a</code></summary>
 
 <div style="float:left; margin-left:150px;">
-<details>
-<summary><code>R1</code></summary>
+> <details>
+> <summary><code>R1</code></summary>
 
 ```
 [vagrant@R1 ~]$ ip a
