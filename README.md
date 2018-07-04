@@ -16,6 +16,7 @@ Table of Contents
       * [Linux Administrator course homework #12](#linux-administrator-course-homework-12)
       * [Linux Administrator course homework #13](#linux-administrator-course-homework-13)
       * [Linux Administrator course homework #14](#linux-administrator-course-homework-14)
+      * [Linux Administrator course homework #16](#linux-administrator-course-homework-16)
 
 ## Linux Administrator course homework #1
 
@@ -2105,3 +2106,10 @@ view internal {
 Дефолт в инет оставлен через inetRouter.
 
 </details>
+
+## Linux Administrator course homework #16
+
+Переделать разворачивание файрвалла (ДЗ 14) а через ansible
+
+Внутри каталога homework16_Ansible сделать `vagrant up` и поднимется инфраструктура, аналогичная Homework 14.
+
