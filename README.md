@@ -2087,7 +2087,7 @@ view internal {
 Взял скрипт и правила iptables Из примера материалов к уроку.
 Вагрант кладет iptables_inetrouter.rules на inetRouter и делает iptables-restore
 Чтобы попасть с помощью knocking port на inetrouter, необходимо зайти на centralRouter 
-и выполнить скрипт `/vagrant/knock.sh`. Затем, в течение 30 секунд можно 
+и выполнить скрипт `/vagrant/knock.sh 192.168.255.1 8881 7777 9991`. Затем, в течение 30 секунд можно 
 будет покдлючиться по ssh с centralRouter на inetRouter `ssh vagrant@192.168.255.1` пароль - vagrant
 
 </details>

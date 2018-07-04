@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos/7"
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.become = "true"
+  end
+
+
+  config.vm.provider "virtualbox" do |v|
+	  v.memory = 256
+  end
+
+  config.vm.define "inetRouter" do |inetRouter|
+    inetRouter.vm.network "private_network", ip: "192.168.255.1", virtualbox__intnet: "router-net"
+    inetRouter.vm.hostname = "inetRouter"
+  end
+
+  config.vm.define "inetRouter2" do |inetRouter2|
+    inetRouter2.vm.network "private_network", ip: "192.168.255.3", virtualbox__intnet: "router-net"
+    inetRouter2.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: '127.0.0.1'
+    inetRouter2.vm.hostname = "inetRouter2"
+  end
+
+  config.vm.define "centralRouter" do |centralRouter|
+    centralRouter.vm.network "private_network", ip: "192.168.255.3", virtualbox__intnet: "router-net"
+    centralRouter.vm.network "private_network", ip: "192.168.0.1", virtualbox__intnet: "dir-net"
+    centralRouter.vm.hostname = "centralRouter"
+  end
+
+  config.vm.define "centralServer" do |centralServer|
+    centralServer.vm.network "private_network", ip: "192.168.0.2", virtualbox__intnet: "dir-net"
+    centralServer.vm.hostname = "centralServer"
+  end
+
+end
