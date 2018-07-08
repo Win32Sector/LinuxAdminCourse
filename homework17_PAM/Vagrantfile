@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
     useradd petya
     echo 123123123 | passwd petya --stdin
     ### Задача 2
-     #ставим пароль руту, чтобы можно было из-под юзера vasya получить root привилегии
+    #ставим пароль руту, чтобы можно было из-под юзера vasya получить root привилегии с помощью su root
     echo 12121212 | passwd root --stdin
     sed -i "10i account         sufficient      pam_succeed_if.so user = vasya use_uid quiet" /etc/pam.d/su
     sed -i 13d /etc/pam.d/su

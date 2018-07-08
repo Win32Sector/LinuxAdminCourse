@@ -17,6 +17,7 @@ Table of Contents
       * [Linux Administrator course homework #13](#linux-administrator-course-homework-13)
       * [Linux Administrator course homework #14](#linux-administrator-course-homework-14)
       * [Linux Administrator course homework #16](#linux-administrator-course-homework-16)
+      * [Linux Administrator course homework #17](#linux-administrator-course-homework-17)
 
 ## Linux Administrator course homework #1
 
@@ -2113,3 +2114,34 @@ view internal {
 
 Внутри каталога homework16_Ansible сделать `vagrant up` и поднимется инфраструктура, аналогичная Homework 14.
 
+
+
+## Linux Administrator course homework #17
+
+Внутри каталога homework17_Ansible сделать `vagrant up` 
+
+Поднимется машина с именем vagrant1.
+
+1. Запретить всем пользователям, кроме группы admin логин в выходные и праздничные дни
+
+Особенностью этой машины будет то, что согласно первой задачи, 
+будут созданы 2 пользователя - vasya и petya, а также группа admin.
+
+vasya член группы admin, petya - нет
+
+С помощью pam_script обеспечивается, чтобы члены группы admin
+могли логиниться по выходным и праздникам, указанным в файле Holidays.
+
+2. Дать конкретному пользователю права рута
+
+Не знаю, что именно имелось в виду, но я придумал дать возможность получения su привилегий определенному пользователю через PAM
+
+Для этого, в файл /etc/pam.d/su добавляются строки
+
+```
+account         sufficient      pam_succeed_if.so user = vasya use_uid quiet
+
+account         required        pam_succeed_if.so user notin root:vagrant:vasya
+```
+
+Соответственно, пользователь vasya получает возможность использовать повышение привилегий через su root.
