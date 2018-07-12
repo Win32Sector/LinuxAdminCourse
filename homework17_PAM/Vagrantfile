@@ -34,10 +34,9 @@ Vagrant.configure("2") do |config|
     sed -i "13i account         required        pam_succeed_if.so user notin root:vagrant:vasya" /etc/pam.d/su
     ip a
 
-    #Вроде должно работать
+    #Задача 2 через cap_sys_admin
     echo "cap_sys_admin vasya" > /etc/security/capability.conf
-    echo "none *" >> /etc/security/capability.conf
-    echo "auth     required     pam_cap.so"  >> /etc/pam.d/system-login
+    sed -i "1i auth     optional     pam_cap.so" /etc/pam.d/su
   SHELL
   end
 end
