@@ -1,0 +1,49 @@
+---
+
+- name: Playbook to configure IPA clients
+  hosts: 
+    - centralServer
+    - centralRouter
+
+  become: true
+  
+  vars:
+    domain: "mydomain.test"
+    ipa_admin: "admin"
+    ipa_pass: "12345678"
+    ipa_server_name: centralserver
+    ipa_server_ip: "192.168.0.2"
+    ipa_realm: "MYDOMAIN.TEST"
+
+  tasks:
+  - name: Install - Ensure that IPA client packages are installed
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items: "ipa-client"
+
+  - name: resolv.conf configuring
+    lineinfile:
+      path: /etc/resolv.conf
+      line: "nameserver 10.0.2.3"
+  
+  - name: hosts file configuring
+    blockinfile:
+      path: /etc/hosts
+      block: |
+        {{ item.ip }} {{ item.name }}
+      with_items: 
+        - { name: "{{ ansible_hostname }}.{{ domain }}", ip: 127.0.0.1 }
+        - { name: "{{ ipa_server_name }}.{{ domain }}", ip: "{{ ipa_server_ip }}" }
+  
+  - name: Run the IPA Client installer
+    shell: > 
+      ipa-client-install
+      --force-join # Override the host entry on the server and force client enrollment
+      --domain {{ domain }}
+      --principal {{ ipa_admin }}@{{ ipa_realm }} 
+      --password {{ ipa_pass }}
+      --server {{ ipa_server_name }}.{{ domain }}
+      --mkhomedir
+      --realm {{ ipa_realm }} 
+      -U
