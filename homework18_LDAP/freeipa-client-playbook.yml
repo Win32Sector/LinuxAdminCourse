@@ -2,7 +2,6 @@
 
 - name: Playbook to configure IPA clients
   hosts: 
-    - centralServer
     - centralRouter
 
   become: true
